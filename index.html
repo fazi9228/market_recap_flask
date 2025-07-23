@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Market Research Platform{% endblock %}
+
+{% block content %}
+<!-- Tab Navigation -->
+<div class="tab-nav">
+    <button class="tab-btn active" data-tab="recap">
+        📰 Market Recap
+    </button>
+    <button class="tab-btn" data-tab="market">
+        📈 Stock & Forex Data
+    </button>
+</div>
+
+<!-- Tab 1: Market Recap -->
+<div id="recap-tab" class="tab-content active">
+    <div class="card">
+        <div class="card-header">
+            <h3>📰 Generate Market Recap</h3>
+            <p>Create comprehensive market analysis using Benzinga news and professional insights</p>
+        </div>
+        
+        <form id="recap-form">
+            <div class="form-row">
+                <div class="form-col">
+                    <label for="start-date" class="form-label">Start Date</label>
+                    <input type="date" id="start-date" name="start_date" class="form-control" required>
+                </div>
+                <div class="form-col">
+                    <label for="end-date" class="form-label">End Date</label>
+                    <input type="date" id="end-date" name="end_date" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <label for="language" class="form-label">Report Language</label>
+                    <select id="language" name="language" class="form-control">
+                        <option value="English">English</option>
+                        <option value="Thai">Thai (ไทย)</option>
+                        <option value="Simplified Chinese">Simplified Chinese (简体中文)</option>
+                        <option value="Traditional Chinese">Traditional Chinese (繁體中文)</option>
+                        <option value="Vietnamese">Vietnamese (Tiếng Việt)</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label for="report-length" class="form-label">Report Length</label>
+                    <select id="report-length" name="report_length" class="form-control">
+                        <option value="800">Brief (800 words)</option>
+                        <option value="1200" selected>Standard (1200 words)</option>
+                        <option value="1600">Detailed (1600 words)</option>
+                        <option value="2000">Comprehensive (2000 words)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Hidden Max Articles Field (Fixed at 200) -->
+            <input type="hidden" id="max-articles" name="max_articles" value="200">
+            
+            <!-- Advanced Options -->
+            <div class="form-group">
+                <details>
+                    <summary>🔧 Advanced Configuration</summary>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="ai-temperature" class="form-label">Report Format</label>
+                            <select id="ai-temperature" name="ai_temperature" class="form-control">
+                                <option value="0.3">Professional Newsletter</option>
+                                <option value="0.5">Executive Brief</option>
+                                <option value="0.7" selected>Market Update</option>
+                                <option value="0.9">Research Report</option>
+                            </select>
+                        </div>
+                        <div class="form-col">
+                            <label for="analysis-depth" class="form-label">Content Scope</label>
+                            <select id="analysis-depth" name="analysis_depth" class="form-control">
+                                <option value="highlights">Key Highlights Only (Top 5-7 stories)</option>
+                                <option value="standard" selected>Standard Coverage (All major themes)</option>
+                                <option value="comprehensive">Comprehensive Review (All available news)</option>
+                                <option value="trading">Market Focus Only (Trading-relevant news)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label class="form-label">
+                                <input type="checkbox" id="include-sectors" name="include_sectors" checked style="margin-right: 0.5rem;">
+                                Include Sector Analysis
+                            </label>
+                        </div>
+                        <div class="form-col">
+                            <label class="form-label">
+                                <input type="checkbox" id="include-compliance" name="include_compliance" checked style="margin-right: 0.5rem;">
+                                Include Compliance Disclaimers
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label class="form-label">
+                                <input type="checkbox" id="include-outlook" name="include_outlook" checked style="margin-right: 0.5rem;">
+                                Include Market Outlook
+                            </label>
+                        </div>
+                        <div class="form-col">
+                            <label class="form-label">
+                                <input type="checkbox" id="include-references" name="include_references" checked style="margin-right: 0.5rem;">
+                                Include Source References
+                            </label>
+                        </div>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" id="generate-recap-btn" class="btn btn-primary">
+                    Generate Market Recap
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Recap Results -->
+    <div id="recap-result">
+        <div class="card" style="background: linear-gradient(135deg, var(--white) 0%, var(--subtle-grey) 100%);">
+            <div class="card-header">
+                <h3>📋 How to Generate Market Recap</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📅</div>
+                    <h4>1. Select Date Range</h4>
+                    <p>Choose 3-7 days for optimal analysis</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <h4>2. Choose Language</h4>
+                    <p>5 languages supported</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📏</div>
+                    <h4>3. Set Report Format</h4>
+                    <p>From newsletter to research report style</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h4>4. Choose Content Scope</h4>
+                    <p>Key highlights to comprehensive coverage</p>
+                </div>
+            </div>
+                
+            <div class="professional-features">
+                <h4>💡 Professional Features</h4>
+                <ul>
+                    <li>Benzinga Financial News API integration ($99/month premium subscription)</li>
+                    <li>Multi-language report generation (5 languages supported)</li>
+                    <li>Flexible report formats (Newsletter, Executive Brief, Market Update, Research Report)</li>
+                    <li>Content scope options (Highlights, Standard, Comprehensive, Trading-focused)</li>
+                    <li>Professional compliance disclaimers included</li>
+                    <li>Download options (Text, Copy to Clipboard, Print)</li>
+                    <li>Complete source attribution with verification links</li>
+                    <li>Advanced formatting with professional presentation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab 2: Stock & Forex Data -->
+<div id="market-tab" class="tab-content">
+    <div class="card">
+        <div class="card-header">
+            <h3>📈 Asset Selection</h3>
+            <p>Select up to 5 assets from each category to track their weekly and monthly performance</p>
+        </div>
+        
+        <div class="asset-selection">
+            <!-- Stocks Selection -->
+            <div class="asset-group">
+                <h4>🏢 Stocks <span id="stock-count" style="color: var(--dark-gray); font-size: 0.9rem;">(0/5)</span></h4>
+                <div id="stocks-selection" class="checkbox-group">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+            
+            <!-- Forex Selection -->
+            <div class="asset-group">
+                <h4>💱 Forex <span id="forex-count" style="color: var(--dark-gray); font-size: 0.9rem;">(0/5)</span></h4>
+                <div id="forex-selection" class="checkbox-group">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+            
+            <!-- Indices Selection -->
+            <div class="asset-group">
+                <h4>📊 Indices <span id="index-count" style="color: var(--dark-gray); font-size: 0.9rem;">(0/5)</span></h4>
+                <div id="indices-selection" class="checkbox-group">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3">
+            <button id="refresh-market-data" class="btn btn-primary">
+                🔄 Refresh Market Data
+            </button>
+            <p style="margin-top: 1rem; color: var(--dark-gray); font-size: 0.9rem;">
+                Data refreshes automatically when you change your selection or reload the page
+            </p>
+        </div>
+    </div>
+    
+    <!-- Market Data Results -->
+    <div id="market-data-container">
+        <div class="card" style="background: linear-gradient(135deg, var(--white) 0%, var(--subtle-grey) 100%);">
+            <div class="card-header">
+                <h3>📈 Real-Time Market Dashboard</h3>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item" style="border-left: 4px solid var(--success-green);">
+                    <div class="feature-icon" style="color: var(--success-green);">📈</div>
+                    <h4>Real-Time Prices</h4>
+                    <p>Live market data updates</p>
+                </div>
+                <div class="feature-item" style="border-left: 4px solid var(--warning-amber);">
+                    <div class="feature-icon" style="color: var(--warning-amber);">📊</div>
+                    <h4>Performance Tracking</h4>
+                    <p>Weekly & monthly changes</p>
+                </div>
+                <div class="feature-item" style="border-left: 4px solid var(--primary-grey);">
+                    <div class="feature-icon" style="color: var(--primary-grey);">🔗</div>
+                    <h4>Source Verification</h4>
+                    <p>Direct Yahoo Finance links</p>
+                </div>
+            </div>
+                
+            <div class="professional-features" style="margin-top: 2rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4>🏢 Major Stocks</h4>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AAPL, MSFT, GOOGL, AMZN, TSLA, META, NVDA, JPM, and 22+ more blue-chip stocks</p>
+                    </div>
+                    <div>
+                        <h4>💱 Forex Pairs</h4>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">EUR/USD, GBP/USD, USD/JPY, USD/CNY, and 8+ major currency pairs</p>
+                    </div>
+                    <div>
+                        <h4>📊 Global Indices</h4>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">S&P 500, NASDAQ, FTSE, DAX, HK50, Nikkei 225, and 6+ more indices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Metrics Section (shown on both tabs) -->
+<div class="card light-orange mt-3">
+    <div class="card-header">
+        <h3>📊 Platform Features</h3>
+    </div>
+    <div class="feature-grid">
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--primary-orange); margin-bottom: 0.5rem;">📰</div>
+            <h4>Professional News Analysis</h4>
+            <p>Comprehensive market recaps using premium Benzinga financial news with professional formatting and multi-language support.</p>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--primary-orange); margin-bottom: 0.5rem;">📈</div>
+            <h4>Real-Time Market Data</h4>
+            <p>Live stock prices, forex rates, and index values with weekly and monthly performance tracking across global markets.</p>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--primary-orange); margin-bottom: 0.5rem;">🔗</div>
+            <h4>Source Verification</h4>
+            <p>Direct links to Yahoo Finance for data verification and Benzinga source links for news transparency and reliability.</p>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--primary-orange); margin-bottom: 0.5rem;">🌍</div>
+            <h4>Global Coverage</h4>
+            <p>Track major assets worldwide including US stocks, global forex pairs, and international market indices with premium data sources.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
